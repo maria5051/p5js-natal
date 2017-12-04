@@ -1,2 +1,2 @@
-# p5js-boilerplate
-Arquivos iniciais para um projeto usando a biblioteca p5.js.
+# p5js-natal
+Willian (@WillRV) e Rafaely
