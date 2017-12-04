@@ -11,6 +11,9 @@ var voar = false;
 
 var lista = [];
 
+var vento = 0;
+var posicao_mouse_anterior = 0, posicao_mouse_atual = 0;
+
 function preload() {
     fundo = loadImage("img/fundo.jpg");
     estrelaV = loadImage("img/estrelaV.png");
@@ -45,6 +48,17 @@ function setup() {
 // chamada toda vez que o quadro for redesenhado
 // ou seja, a cada frame da animacao
 function draw() {
+    posicao_mouse_atual = mouseX;
+
+    if (posicao_mouse_atual > posicao_mouse_anterior) {
+        vento = 1;
+    } else if (posicao_mouse_atual < posicao_mouse_anterior) {
+        vento = -1;
+    } else {
+        vento = 0;
+    }
+
+
 	// pinta o fundo de preto
 	background(fundo);
     
@@ -71,6 +85,7 @@ function draw() {
         pop();
         
         // atualiza
+        lista[i].x += vento;
         lista[i].y += lista[i].v;
         if (lista[i].y > height) lista[i].y = -30;
         lista[i].a += lista[i].w;
@@ -81,6 +96,8 @@ function draw() {
     if(flocoPos.y >= 610){
         flocoPos.y = -100
     }
+
+    posicao_mouse_anterior = mouseX;
 }
 function chamarContador(){
     if(contador < 60){
