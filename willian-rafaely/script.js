@@ -8,6 +8,9 @@ var fundo, musica, estrelaV, estrelaA, bonecoPos, eu, vento, somVento, floco1, f
 var contador = 0;
 var voltar = false;
 var voar = false;
+
+var lista = [];
+
 function preload() {
     fundo = loadImage("img/fundo.jpg");
     estrelaV = loadImage("img/estrelaV.png");
@@ -24,12 +27,18 @@ function preload() {
 
 // chamada no inicio do programa
 function setup() {
+    angleMode(DEGREES);
+
 	// cria o quadro, com dimensoes 900 x 400
 	createCanvas(800, 600);
     musica.loop();
     bonecoPos = createVector(300, 300);
     euPos = createVector(-400, 50);
     flocoPos = createVector(0, 0);
+
+    for (var i = 0; i < 150; i++) {
+        lista.push(criaFloco(random(0, width), random(0, height), random(1, 3), random(0.1, 2.0)));
+    }
     
 }
 
@@ -44,14 +53,28 @@ function draw() {
     chamarBoneco();
     
     chamarEuVoando();
-    image(floco1, 0, flocoPos.y, 100, 100);
-    image(floco2, 100, flocoPos.y, 100, 100);
-    image(floco3, 200, flocoPos.y, 100, 100);
-    image(floco4, 300, flocoPos.y, 100, 100);
-    image(floco1, 400, flocoPos.y, 100, 100);
-    image(floco2, 500, flocoPos.y, 100, 100);
-    image(floco3, 600, flocoPos.y, 100, 100);
-    image(floco4, 700, flocoPos.y, 100, 100);
+    // image(floco1, 0, flocoPos.y, 100, 100);
+    // image(floco2, 100, flocoPos.y, 100, 100);
+    // image(floco3, 200, flocoPos.y, 100, 100);
+    // image(floco4, 300, flocoPos.y, 100, 100);
+    // image(floco1, 400, flocoPos.y, 100, 100);
+    // image(floco2, 500, flocoPos.y, 100, 100);
+    // image(floco3, 600, flocoPos.y, 100, 100);
+    // image(floco4, 700, flocoPos.y, 100, 100);
+
+    for (var i = 0; i < lista.length; i++) {
+        // desenha
+        push();
+        translate(lista[i].x, lista[i].y);
+        rotate(lista[i].a);
+        image(floco1, -15, -15, 30, 30);
+        pop();
+        
+        // atualiza
+        lista[i].y += lista[i].v;
+        if (lista[i].y > height) lista[i].y = -30;
+        lista[i].a += lista[i].w;
+    }
     
     flocoPos.y++;
     
@@ -105,4 +128,15 @@ function chamarEuVoando(){
 
 function mousePressed(){
     voar = true;
+}
+
+// factory
+function criaFloco(x, y, v, w) {
+    return {
+        x: x,
+        y: y,
+        v: v,
+        a: 0,
+        w: w
+    };
 }
